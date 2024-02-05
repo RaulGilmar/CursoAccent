@@ -19,7 +19,7 @@ namespace HomeBankingMindHub.Repositories
 
         public IQueryable<T> FindAll()
         {
-            //return this.RepositoryContext.Set<T>().AsNoTracking();
+            
             return this.RepositoryContext.Set<T>().AsNoTrackingWithIdentityResolution();
         }
 
