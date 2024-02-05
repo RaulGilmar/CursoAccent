@@ -22,7 +22,7 @@ namespace HomeBankingMindHub.Models
                 context.SaveChanges();
             }
 
-            if (!context.Accounts.Any()) 
+            if (!context.Accounts.Any())
             {
                 var accountsAlejandro = context.Clients.FirstOrDefault(c => c.Email == "m.ale@gmail.com");
 
@@ -30,16 +30,16 @@ namespace HomeBankingMindHub.Models
                 {
                     var accountsA = new Account[]
                     {
-                        new Account 
+                        new Account
                         {
-                            ClientId = accountsAlejandro.Id, 
+                            ClientId = accountsAlejandro.Id,
                             CreationDate=DateTime.Now,
                             Number = string.Empty,
                             Balance = 0
                         }
                     };
 
-                    context.Accounts.AddRange(accountsA);                                        
+                    context.Accounts.AddRange(accountsA);
                 }
                 var accountsMaria = context.Clients.FirstOrDefault(c => c.Email == "mariap@gmail.com");
 
@@ -58,7 +58,7 @@ namespace HomeBankingMindHub.Models
 
                     context.Accounts.AddRange(accountsM);
                 }
-                var accountsTatiana = context.Clients.FirstOrDefault(c => c.Email == "Tatiana");
+                var accountsTatiana = context.Clients.FirstOrDefault(c => c.Email == "Tati88@gmail.com");
 
                 if (accountsTatiana != null)
                 {
