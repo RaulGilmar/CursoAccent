@@ -79,6 +79,38 @@ namespace HomeBankingMinHub.Migrations
                     b.ToTable("Clients");
                 });
 
+            modelBuilder.Entity("HomeBankingMindHub.Models.Transaction", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("AccountId")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("HomeBankingMindHub.Models.Account", b =>
                 {
                     b.HasOne("HomeBankingMindHub.Models.Client", "Client")
@@ -88,6 +120,22 @@ namespace HomeBankingMinHub.Migrations
                         .IsRequired();
 
                     b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("HomeBankingMindHub.Models.Transaction", b =>
+                {
+                    b.HasOne("HomeBankingMindHub.Models.Account", "Account")
+                        .WithMany("Transactions")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("HomeBankingMindHub.Models.Account", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("HomeBankingMindHub.Models.Client", b =>
