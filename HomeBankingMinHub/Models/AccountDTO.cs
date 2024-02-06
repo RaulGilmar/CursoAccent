@@ -21,6 +21,10 @@ namespace HomeBankingMindHub.dtos
 
         public double Balance { get; set; }
 
+        public ICollection<TransactionDTO> Transactions { get; set; }
+
+
+
     }
 
 }
