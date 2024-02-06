@@ -122,7 +122,11 @@ namespace HomeBankingMindHub.Controllers
 
                         Amount = ta.Amount,
 
+                        Description = ta.Description,
+
                         Date = ta.Date
+
+                       
 
                     }).ToList()
                 };

@@ -3,11 +3,11 @@
 using HomeBankingMindHub.Models;
 
 using HomeBankingMindHub.Repositories;
-
+using HomeBankingMinHub.Models.Model;
 using Microsoft.AspNetCore.Http;
 
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.IdentityModel.Tokens;
 using System;
 
 using System.Collections.Generic;
@@ -183,6 +183,36 @@ namespace HomeBankingMindHub.Controllers
             }
 
         }
+
+        
+        [HttpPost]
+        public IActionResult Post([FromBody] ClientPost model)
+        {
+            try
+            {
+                if (model.FirstName.IsNullOrEmpty() || model.LastName.IsNullOrEmpty() || model.Email.IsNullOrEmpty() )
+                {
+                    return BadRequest("Algún o algunos de los datos son erróneos, ingrese nuevamente los datos");
+                }
+
+               
+                var newClient = new Client
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    Password = model.Email                };
+
+                _clientRepository.Save(newClient);
+
+                return Created();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
 
     }
 

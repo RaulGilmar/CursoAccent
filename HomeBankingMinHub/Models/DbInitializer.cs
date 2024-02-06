@@ -125,7 +125,7 @@ namespace HomeBankingMindHub.Models
                               Amount = -5000,
                               Date = DateTime.Now.AddHours(-3),
                               Description = "Transferencia Enviada",
-                              Type = TransactionType.CREDIT.ToString()
+                              Type = TransactionType.DEBIT.ToString()
                          },
 
                            new Transaction
@@ -135,7 +135,7 @@ namespace HomeBankingMindHub.Models
                               Amount = -10000,
                               Date = DateTime.Now.AddHours(-2),
                               Description = "Compra en tienda Mercado Libre",
-                              Type = TransactionType.CREDIT.ToString()
+                              Type = TransactionType.DEBIT.ToString()
                          },
 
 
