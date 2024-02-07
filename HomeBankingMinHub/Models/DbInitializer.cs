@@ -152,6 +152,119 @@ namespace HomeBankingMindHub.Models
                 }
             } 
 
+             if (!context.Loans.Any()) 
+             {
+                var loans = new Loan[]
+                {
+                      new Loan
+                        {
+                            Name = "Hipotecario",
+                            MaxAmount = 10000000,
+                            Payments = "12,24,36,48,60"
+
+                        },
+                       new Loan
+                        {
+                            Name = "Personal",
+                            MaxAmount = 600000,
+                            Payments = "6,12,24,36"
+
+                        },
+                        new Loan
+                        {
+                            Name = "Automotriz",
+                            MaxAmount = 2000000,
+                            Payments = "12,24,36,48"
+
+                        }
+                                                                           
+                };
+                    
+                foreach (var loan in loans) 
+                {
+                    context.Loans.Add(loan);        
+                }
+
+                context.SaveChanges();
+
+                var client1 = context.Clients.FirstOrDefault(c => c.Email == "m.ale@gmail.com");
+
+                if (client1 != null) 
+                {
+                    var loan1 = context.Loans.FirstOrDefault(l => l.Name == "Hipotecario");
+
+                    if (loan1 != null) 
+                    {
+                        var clientLoan1 = new ClientLoan
+                        {
+                            Amount = 8000000,
+                            Payments = "60",
+                            ClientId = client1.Id,
+                            LoanId = loan1.Id
+                        };
+
+                        context.ClientLoans.Add(clientLoan1);
+                    }
+
+                    var loan2 = context.Loans.FirstOrDefault(l => l.Name == "Personal");
+
+                    if (loan2 != null)
+                    {
+                        var clientLoan2 = new ClientLoan
+                        {
+                            Amount = 100000,
+                            Payments = "12",
+                            ClientId = client1.Id,
+                            LoanId = loan2.Id
+                        };
+
+                        context.ClientLoans.Add(clientLoan2);
+                    }
+
+                    var loan3 = context.Loans.FirstOrDefault(l => l.Name == "Automotriz");
+
+                    if (loan3 != null) 
+                    {
+                        var clientLoan3 = new ClientLoan
+                        {
+                            Amount = 80000,
+                            Payments = "24",
+                            ClientId = client1.Id,
+                            LoanId = loan3.Id
+                        };
+
+                        context.ClientLoans.Add(clientLoan3);
+
+                    }
+
+                    context.SaveChanges();
+
+                }
+                var client2 = context.Clients.FirstOrDefault(c => c.Email == "Tati88@gmail.com");
+
+                if (client2 != null) 
+                {
+                    var loan4 = context.Loans.FirstOrDefault(l => l.Name == "Personal");
+
+                    if (loan4 != null)
+                    {
+                        var clientLoan2 = new ClientLoan
+                        {
+                            Amount = 600000,
+                            Payments = "36",
+                            ClientId = client2.Id,
+                            LoanId = loan4.Id
+                        };
+
+                        context.ClientLoans.Add(clientLoan2);
+                    }
+
+                    context.SaveChanges();
+
+                }
+            }
+
+
         }
     }
 }
