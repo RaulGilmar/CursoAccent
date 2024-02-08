@@ -115,7 +115,7 @@ namespace HomeBankingMindHub.Models
                               Amount = 30000,
                               Date = DateTime.Now.AddHours(-4),
                               Description = "Transferencia Recibida",
-                              Type = TransactionType.CREDIT.ToString()
+                              Type = TransactionType.CREDIT
                          },
 
                          new Transaction
@@ -125,7 +125,7 @@ namespace HomeBankingMindHub.Models
                               Amount = -5000,
                               Date = DateTime.Now.AddHours(-3),
                               Description = "Transferencia Enviada",
-                              Type = TransactionType.DEBIT.ToString()
+                              Type = TransactionType.DEBIT
                          },
 
                            new Transaction
@@ -135,7 +135,7 @@ namespace HomeBankingMindHub.Models
                               Amount = -10000,
                               Date = DateTime.Now.AddHours(-2),
                               Description = "Compra en tienda Mercado Libre",
-                              Type = TransactionType.DEBIT.ToString()
+                              Type = TransactionType.DEBIT
                          },
 
 
@@ -275,8 +275,8 @@ namespace HomeBankingMindHub.Models
                         new Card
                         {
                             CardHolder = client1.FirstName + " " + client1.LastName,
-                            Type = CardType.DEBIT.ToString(),
-                            Color = CardColor.GOLD.ToString(),
+                            Type = CardType.DEBIT,
+                            Color = CardColor.GOLD,
                             Number = "4398-1010-9827-6735",
                             Cvv= 678,
                             FromDate= DateTime.Now,
@@ -287,8 +287,8 @@ namespace HomeBankingMindHub.Models
                         new Card
                         {
                             CardHolder = client1.FirstName + " " + client1.LastName,
-                            Type = CardType.CREDIT.ToString(),
-                            Color = CardColor.TITANIUM.ToString(),
+                            Type = CardType.CREDIT,
+                            Color = CardColor.TITANIUM,
                             Number = "4766-7288-7621-9899",
                             Cvv= 432,
                             FromDate= DateTime.Now,
