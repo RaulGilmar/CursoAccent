@@ -263,6 +263,46 @@ namespace HomeBankingMindHub.Models
 
                 }
             }
+             
+             if (!context.Cards.Any()) 
+             {
+                var client1 = context.Clients.FirstOrDefault(c => c.Email == "m.ale@gmail.com");
+
+                if (client1 != null) 
+                {
+                    var cards = new Card[]
+                    {
+                        new Card
+                        {
+                            CardHolder = client1.FirstName + " " + client1.LastName,
+                            Type = CardType.DEBIT.ToString(),
+                            Color = CardColor.GOLD.ToString(),
+                            Number = "4398-1010-9827-6735",
+                            Cvv= 678,
+                            FromDate= DateTime.Now,
+                            ThruDate= DateTime.Now.AddYears(6),
+                            ClientId= client1.Id
+                        },
+
+                        new Card
+                        {
+                            CardHolder = client1.FirstName + " " + client1.LastName,
+                            Type = CardType.CREDIT.ToString(),
+                            Color = CardColor.TITANIUM.ToString(),
+                            Number = "4766-7288-7621-9899",
+                            Cvv= 432,
+                            FromDate= DateTime.Now,
+                            ThruDate= DateTime.Now.AddYears(5),
+                            ClientId= client1.Id
+                        }
+                    };
+                    foreach (Card card in cards) 
+                    {
+                        context.Cards.Add(card);
+                    }
+                    context.SaveChanges();
+                }
+             }
 
 
         }
