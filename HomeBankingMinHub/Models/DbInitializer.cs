@@ -1,4 +1,6 @@
 ﻿using HomeBankingMindHub.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace HomeBankingMindHub.Models
 {
@@ -10,10 +12,10 @@ namespace HomeBankingMindHub.Models
             {
                 var clients = new Client[]
                 {
-                    new Client { Email = "m.ale@gmail.com", FirstName="Alejandro", LastName="Martinez", Password="abc"},
-                    new Client { Email = "mariap@gmail.com", FirstName="Maria", LastName="Pola", Password="cde"},
-                    new Client { Email = "Tati88@gmail.com", FirstName="Tatiana", LastName="Castillo", Password="efg"},
-                    new Client { Email = "Joseb@gmail.com", FirstName="Jose", LastName="Bora", Password="hij"}
+                    new Client { Email = "m.ale@gmail.com", FirstName="Alejandro", LastName="Martinez", Password=GeneratePasswordHash("abc")},
+                    new Client { Email = "mariap@gmail.com", FirstName="Maria", LastName="Pola", Password=GeneratePasswordHash("def")},
+                    new Client { Email = "Tati88@gmail.com", FirstName="Tatiana", LastName="Castillo", Password=GeneratePasswordHash("ghi")},
+                    new Client { Email = "Joseb@gmail.com", FirstName="Jose", LastName="Bora", Password=GeneratePasswordHash("jkl")}
                 };
 
                 context.Clients.AddRange(clients);
@@ -102,7 +104,7 @@ namespace HomeBankingMindHub.Models
 
              if (!context.Transactions.Any()) 
               {
-                  var account1 = context.Accounts.FirstOrDefault(c => c.Number == "ALE001");
+                  var account1 = context.Accounts.FirstOrDefault(c => c.Number == "ALE-001");
 
                 if (account1 != null)
                 {
@@ -285,7 +287,7 @@ namespace HomeBankingMindHub.Models
                         },
 
                         new Card
-                        {
+                        { 
                             CardHolder = client1.FirstName + " " + client1.LastName,
                             Type = CardType.CREDIT,
                             Color = CardColor.TITANIUM,
@@ -304,7 +306,15 @@ namespace HomeBankingMindHub.Models
                 }
              }
 
-
+        
+        }
+        private static string GeneratePasswordHash(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] hashedPasswordBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(hashedPasswordBytes);
+            }
         }
     }
 }

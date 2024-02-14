@@ -57,11 +57,14 @@ namespace HomeBankingMinHub.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("CardHolder")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("ClientId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Color")
+                        .HasColumnType("int");
 
                     b.Property<int>("Cvv")
                         .HasColumnType("int");
@@ -75,8 +78,8 @@ namespace HomeBankingMinHub.Migrations
                     b.Property<DateTime>("ThruDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -181,8 +184,8 @@ namespace HomeBankingMinHub.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
