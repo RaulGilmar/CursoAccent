@@ -1,6 +1,7 @@
 ﻿using HomeBankingMindHub.Models;
 using System.Security.Cryptography;
 using System.Text;
+using HomeBankingMindHub.Utils;
 
 namespace HomeBankingMindHub.Models
 {
@@ -12,10 +13,10 @@ namespace HomeBankingMindHub.Models
             {
                 var clients = new Client[]
                 {
-                    new Client { Email = "m.ale@gmail.com", FirstName="Alejandro", LastName="Martinez", Password=GeneratePasswordHash("abc")},
-                    new Client { Email = "mariap@gmail.com", FirstName="Maria", LastName="Pola", Password=GeneratePasswordHash("def")},
-                    new Client { Email = "Tati88@gmail.com", FirstName="Tatiana", LastName="Castillo", Password=GeneratePasswordHash("ghi")},
-                    new Client { Email = "Joseb@gmail.com", FirstName="Jose", LastName="Bora", Password=GeneratePasswordHash("jkl")}
+                    new Client { Email = "m.ale@gmail.com", FirstName="Alejandro", LastName="Martinez", Password=HashUtils.GeneratePasswordHash("abc")},
+                    new Client { Email = "mariap@gmail.com", FirstName="Maria", LastName="Pola", Password=HashUtils.GeneratePasswordHash("def")},
+                    new Client { Email = "Tati88@gmail.com", FirstName="Tatiana", LastName="Castillo", Password=HashUtils.GeneratePasswordHash("ghi")},
+                    new Client { Email = "Joseb@gmail.com", FirstName="Jose", LastName="Bora", Password=HashUtils.GeneratePasswordHash("jkl")}
                 };
 
                 context.Clients.AddRange(clients);
@@ -308,13 +309,6 @@ namespace HomeBankingMindHub.Models
 
         
         }
-        private static string GeneratePasswordHash(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                byte[] hashedPasswordBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return Convert.ToBase64String(hashedPasswordBytes);
-            }
-        }
+       
     }
 }
