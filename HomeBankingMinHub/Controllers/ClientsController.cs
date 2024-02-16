@@ -2,17 +2,9 @@
 using HomeBankingMindHub.Models;
 using HomeBankingMindHub.Repositories;
 using HomeBankingMindHub.Models.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
-using System.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using HomeBankingMindHub.Utils;
-using System.ComponentModel.DataAnnotations;
 
 
 
@@ -28,10 +20,13 @@ namespace HomeBankingMindHub.Controllers
     {
         private IClientRepository _clientRepository;
         private IAccountRepository _accountRepository;
-        public ClientsController(IClientRepository clientRepository, IAccountRepository accountRepository)
+        private ICardRepository _cardRepository;
+        public ClientsController(IClientRepository clientRepository, IAccountRepository 
+            accountRepository, ICardRepository cardRepository)
         {
             _clientRepository = clientRepository;
-            _accountRepository = accountRepository;           
+            _accountRepository = accountRepository;
+            _cardRepository = cardRepository;
         }
 
         [HttpGet]
@@ -192,7 +187,7 @@ namespace HomeBankingMindHub.Controllers
                     return Forbid("El usuario ya existe");
                 }
 
-                string passwordHash = HashUtils.GeneratePasswordHash(client.Password);
+                string passwordHash = HomeUtils.GeneratePasswordHash(client.Password);
 
                 var newClient = new Client
                 {
@@ -206,7 +201,7 @@ namespace HomeBankingMindHub.Controllers
 
                 var newAccount = new Account
                 {
-                    Number = AccountUtils.GenerateAccountNumber(),
+                    Number = HomeUtils.GenerateAccountNumber(),
                     CreationDate = DateTime.Now,
                     Balance = 0,
                     Client = newClient
@@ -294,6 +289,8 @@ namespace HomeBankingMindHub.Controllers
         {
             try 
             {
+                
+
                 string email = User.FindFirst("Client") != null ? User.FindFirst("Client").Value : string.Empty;
 
                 if (email == string.Empty)
@@ -315,7 +312,7 @@ namespace HomeBankingMindHub.Controllers
 
                 var newAccount = new Account
                 {
-                    Number = AccountUtils.GenerateAccountNumber(),
+                    Number = HomeUtils.GenerateAccountNumber(),
                     CreationDate = DateTime.Now,
                     Balance = 0,
                     Client = client
@@ -331,7 +328,70 @@ namespace HomeBankingMindHub.Controllers
             }
 
         }
-        
+
+        [HttpPost("current/cards")]
+        public IActionResult CreateCard([FromBody] CardRequestDTO cardRequest) 
+        {
+            try 
+            {
+                string email = User.FindFirst("Client") != null ? User.FindFirst("Client").Value : string.Empty;
+
+                if (email == string.Empty)
+                {
+                    return Forbid();
+                }
+
+                Client client = _clientRepository.FindByEmail(email);
+                if (client == null)
+                {
+                    return Forbid();
+                }
+
+                if (_cardRepository.FindByIdAndTypeAndColor(client.Id, cardRequest.Type, cardRequest.Color) != null) 
+                {
+                    return Forbid("Prohibido");
+                }
+
+                int cantType = _cardRepository.CountByType(client.Id, cardRequest.Type);
+                int cantColor = _cardRepository.CountByColor(client.Id, cardRequest.Color);
+
+                if (cantType >= 3)
+                {
+                    return Forbid("Prohibido");
+                }
+
+                if (cantColor>= 1)
+                {
+                    return Forbid("Prohibido");
+                }
+
+              
+
+                var newCard = new Card
+                {
+                    CardHolder = client.FirstName + " " + client.LastName,
+                    Type = cardRequest.Type,
+                    Color = cardRequest.Color,
+                    Number = HomeUtils.GenerateRandomCardNumber(),
+                    Cvv = HomeUtils.GenerateRandomCvv(),
+                    FromDate = DateTime.Now,
+                    ThruDate = DateTime.Now.AddYears(5),
+                    Client = client
+                };
+
+                _cardRepository.Save(newCard);
+
+                return StatusCode(201, "Tarjeta creada exitosamente");
+
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
 
     }
 

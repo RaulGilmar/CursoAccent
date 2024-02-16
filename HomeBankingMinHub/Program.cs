@@ -22,6 +22,8 @@ builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
+builder.Services.AddScoped<ICardRepository, CardRepository>();
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
@@ -37,7 +39,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 //Autorización
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("ClientOnly", policy => policy.RequireClaim("CLient"));
+    options.AddPolicy("ClientOnly", policy => policy.RequireClaim("Client"));
 });
 
 var app = builder.Build();

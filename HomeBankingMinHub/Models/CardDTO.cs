@@ -1,4 +1,6 @@
-﻿namespace HomeBankingMindHub.Models
+﻿using HomeBankingMindHub.Models;
+
+namespace HomeBankingMindHub.Models
 {
     public class CardDTO
     {
@@ -11,5 +13,8 @@
         public DateTime? FromDate { get; set; }
         public DateTime? ThruDate { get; set; }
 
+
     }
+
 }
+

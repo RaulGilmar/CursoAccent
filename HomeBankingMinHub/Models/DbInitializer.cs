@@ -13,10 +13,10 @@ namespace HomeBankingMindHub.Models
             {
                 var clients = new Client[]
                 {
-                    new Client { Email = "m.ale@gmail.com", FirstName="Alejandro", LastName="Martinez", Password=HashUtils.GeneratePasswordHash("abc")},
-                    new Client { Email = "mariap@gmail.com", FirstName="Maria", LastName="Pola", Password=HashUtils.GeneratePasswordHash("def")},
-                    new Client { Email = "Tati88@gmail.com", FirstName="Tatiana", LastName="Castillo", Password=HashUtils.GeneratePasswordHash("ghi")},
-                    new Client { Email = "Joseb@gmail.com", FirstName="Jose", LastName="Bora", Password=HashUtils.GeneratePasswordHash("jkl")}
+                    new Client { Email = "m.ale@gmail.com", FirstName="Alejandro", LastName="Martinez", Password= HomeUtils.GeneratePasswordHash("abc")},
+                    new Client { Email = "mariap@gmail.com", FirstName="Maria", LastName="Pola", Password=HomeUtils.GeneratePasswordHash("def")},
+                    new Client { Email = "Tati88@gmail.com", FirstName="Tatiana", LastName="Castillo", Password=HomeUtils.GeneratePasswordHash("ghi")},
+                    new Client { Email = "Joseb@gmail.com", FirstName="Jose", LastName="Bora", Password=HomeUtils.GeneratePasswordHash("jkl")}
                 };
 
                 context.Clients.AddRange(clients);
