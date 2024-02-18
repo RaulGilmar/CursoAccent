@@ -46,5 +46,12 @@ namespace HomeBankingMindHub.Repositories
             Create(client);
             SaveChanges();
         }
+
+        public void Update(Client client)
+        {
+            RepositoryContext.Update(client);
+            SaveChanges();
+        }
+
     }
 }

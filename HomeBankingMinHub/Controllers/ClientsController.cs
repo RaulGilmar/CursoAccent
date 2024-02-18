@@ -288,8 +288,7 @@ namespace HomeBankingMindHub.Controllers
         public IActionResult CreateAccount() 
         {
             try 
-            {
-                
+            {                
 
                 string email = User.FindFirst("Client") != null ? User.FindFirst("Client").Value : string.Empty;
 
@@ -310,15 +309,19 @@ namespace HomeBankingMindHub.Controllers
                     return StatusCode(403, "Prohibido");
                 }
 
+                
                 var newAccount = new Account
+                
                 {
                     Number = HomeUtils.GenerateAccountNumber(),
                     CreationDate = DateTime.Now,
                     Balance = 0,
-                    Client = client
+                    ClientId = client.Id,
                 };    
                 
                 _accountRepository.Save(newAccount);
+                _clientRepository.Update(client);
+
 
                 return StatusCode(201, "Cuenta creada exitosamente");
             }
@@ -330,9 +333,9 @@ namespace HomeBankingMindHub.Controllers
         }
 
         [HttpPost("current/cards")]
-        public IActionResult CreateCard([FromBody] CardRequestDTO cardRequest) 
+        public IActionResult CreateCard(CardRequestDTO cardRequest)  
         {
-            try 
+            try
             {
                 string email = User.FindFirst("Client") != null ? User.FindFirst("Client").Value : string.Empty;
 
@@ -342,18 +345,23 @@ namespace HomeBankingMindHub.Controllers
                 }
 
                 Client client = _clientRepository.FindByEmail(email);
+                       
+                CardType parsedType = (CardType)Enum.Parse(typeof(CardType),cardRequest.Type,true);
+
+                CardColor parsedColor = (CardColor)Enum.Parse(typeof(CardColor),cardRequest.Color,true);
+
                 if (client == null)
                 {
                     return Forbid();
                 }
 
-                if (_cardRepository.FindByIdAndTypeAndColor(client.Id, cardRequest.Type, cardRequest.Color) != null) 
+                if (_cardRepository.FindByIdAndTypeAndColor(client.Id, parsedType, parsedColor) != null) 
                 {
                     return Forbid("Prohibido");
                 }
 
-                int cantType = _cardRepository.CountByType(client.Id, cardRequest.Type);
-                int cantColor = _cardRepository.CountByColor(client.Id, cardRequest.Color);
+                int cantType = _cardRepository.CountByType(client.Id, parsedType);
+                int cantColor = _cardRepository.CountByColor(client.Id, parsedColor);
 
                 if (cantType >= 3)
                 {
@@ -368,18 +376,19 @@ namespace HomeBankingMindHub.Controllers
               
 
                 var newCard = new Card
-                {
+                { 
                     CardHolder = client.FirstName + " " + client.LastName,
-                    Type = cardRequest.Type,
-                    Color = cardRequest.Color,
+                    Type = parsedType,
+                    Color = parsedColor,
                     Number = HomeUtils.GenerateRandomCardNumber(),
                     Cvv = HomeUtils.GenerateRandomCvv(),
                     FromDate = DateTime.Now,
                     ThruDate = DateTime.Now.AddYears(5),
-                    Client = client
+                    ClientId = client.Id
                 };
 
                 _cardRepository.Save(newCard);
+                _clientRepository.Update(client);
 
                 return StatusCode(201, "Tarjeta creada exitosamente");
 
