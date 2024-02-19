@@ -1,8 +1,6 @@
 ﻿using HomeBankingMindHub.Models;
 using System.Text.Json.Serialization;
 
-
-
 namespace HomeBankingMindHub.dtos
 
 {
@@ -10,7 +8,6 @@ namespace HomeBankingMindHub.dtos
     public class ClientDTO
 
     {
-
         [JsonIgnore]
 
         public long Id { get; set; }

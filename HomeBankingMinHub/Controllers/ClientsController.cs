@@ -7,8 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using HomeBankingMindHub.Utils;
 
 
-
-
 namespace HomeBankingMindHub.Controllers
 
 {
@@ -282,6 +280,43 @@ namespace HomeBankingMindHub.Controllers
             }
 
         }
+
+        [HttpGet("current/accounts")]
+        public IActionResult GetCurrentAccounts()
+        {
+            try
+            {
+                
+                string email = User.FindFirst("Client")?.Value ?? string.Empty;
+
+                if (string.IsNullOrEmpty(email))
+                {
+                    return Forbid(); 
+                }
+              
+                Client client = _clientRepository.FindByEmail(email);
+
+                if (client == null)
+                {
+                    return Forbid(); 
+                }
+
+                var accounts = client.Accounts.Select(ac => new AccountDTO
+                {
+                    Id = ac.Id,
+                    Balance = ac.Balance,
+                    CreationDate = ac.CreationDate,
+                    Number = ac.Number
+                }).ToList();
+
+                return Ok(accounts); 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message); 
+            }
+        }
+
 
         [HttpPost("current/accounts")]
 

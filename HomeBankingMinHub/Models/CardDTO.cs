@@ -1,6 +1,4 @@
-﻿using HomeBankingMindHub.Models;
-
-namespace HomeBankingMindHub.Models
+﻿namespace HomeBankingMindHub.Models
 {
     public class CardDTO
     {
