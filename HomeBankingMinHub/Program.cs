@@ -1,5 +1,6 @@
 using HomeBankingMindHub.Models;
-using HomeBankingMindHub.Repositories;
+using HomeBankingMinHub.Repositories.Implementations;
+using HomeBankingMinHub.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;

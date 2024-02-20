@@ -1,10 +1,10 @@
-﻿using HomeBankingMindHub.dtos;
-using HomeBankingMindHub.Models;
-using HomeBankingMindHub.Repositories;
+﻿using HomeBankingMindHub.Models;
 using HomeBankingMindHub.Models.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using HomeBankingMindHub.Utils;
+using HomeBankingMinHub.Repositories.Interfaces;
+using HomeBankingMinHub.Models.DTOs;
 
 
 namespace HomeBankingMindHub.Controllers
@@ -197,9 +197,20 @@ namespace HomeBankingMindHub.Controllers
 
                 _clientRepository.Save(newClient);
 
-                var newAccount = new Account
+                string generatedAccountNumber;
+                Account existingAccount;
+
+                do
                 {
-                    Number = HomeUtils.GenerateAccountNumber(),
+                    generatedAccountNumber = HomeUtils.GenerateAccountNumber();
+                    existingAccount = _accountRepository.FindByNumber(generatedAccountNumber);
+                }
+                while (existingAccount != null);
+
+                var newAccount = new Account
+
+                {
+                    Number = generatedAccountNumber,
                     CreationDate = DateTime.Now,
                     Balance = 0,
                     Client = newClient
@@ -344,11 +355,19 @@ namespace HomeBankingMindHub.Controllers
                     return StatusCode(403, "Prohibido");
                 }
 
-                
+                string generatedAccountNumber;
+                Account existingAccount;
+
+                do
+                {
+                    generatedAccountNumber = HomeUtils.GenerateAccountNumber();
+                    existingAccount = _accountRepository.FindByNumber(generatedAccountNumber);
+                }
+                while (existingAccount != null);
                 var newAccount = new Account
                 
                 {
-                    Number = HomeUtils.GenerateAccountNumber(),
+                    Number = generatedAccountNumber,
                     CreationDate = DateTime.Now,
                     Balance = 0,
                     ClientId = client.Id,
@@ -408,7 +427,15 @@ namespace HomeBankingMindHub.Controllers
                     return Forbid("Prohibido");
                 }
 
-              
+                string generatedCardNumber;
+                Account existingCard;
+
+                do
+                {
+                    generatedCardNumber = HomeUtils.GenerateRandomCardNumber();
+                    existingCard = _accountRepository.FindByNumber(generatedCardNumber);
+                }
+                while (existingCard != null);
 
                 var newCard = new Card
                 { 

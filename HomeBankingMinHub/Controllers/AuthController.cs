@@ -1,11 +1,11 @@
-﻿using HomeBankingMindHub.Repositories;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using HomeBankingMindHub.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Text;
 using System.Security.Cryptography;
+using HomeBankingMinHub.Repositories.Interfaces;
 
 
 namespace HomeBankingMindHub.Controllers
