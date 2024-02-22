@@ -1,8 +1,8 @@
 ﻿using HomeBankingMindHub.Models;
-using HomeBankingMinHub.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using HomeBankingMindHub.Repositories.Interfaces;
 
-namespace HomeBankingMinHub.Repositories.Implementations
+namespace HomeBankingMindHub.Repositories.Implementations
 {
     public class AccountRepository : RepositoryBase<Account>, IAccountRepository
     {

@@ -1,6 +1,6 @@
 using HomeBankingMindHub.Models;
-using HomeBankingMinHub.Repositories.Implementations;
-using HomeBankingMinHub.Repositories.Interfaces;
+using HomeBankingMindHub.Repositories.Implementations;
+using HomeBankingMindHub.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -27,18 +27,19 @@ builder.Services.AddScoped<ICardRepository, CardRepository>();
 
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
+builder.Services.AddScoped<ILoanRepository, LoanRepository>();
+
+builder.Services.AddScoped<IClientLoanRepository, ClientLoanRepository>();
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 //Autenticación
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
-    options => 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => 
     {
         options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
         options.LoginPath = new PathString("/index.html");
-
     });
-
 //Autorización
 builder.Services.AddAuthorization(options =>
 {
@@ -60,16 +61,14 @@ using (var scope = app.Services.CreateScope())
         var logger = services.GetRequiredService<ILogger<Program>>();
         logger.LogError(ex, "Ha ocurrido un error al enviar la información a la base de datos!");
     }
-
-
 }
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
-    ;
+
+    app.UseSwaggerUI();    
 }
 app.UseStaticFiles();
 

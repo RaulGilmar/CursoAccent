@@ -1,15 +1,14 @@
 ﻿using HomeBankingMindHub.Models;
-using HomeBankingMinHub.Repositories.Interfaces;
+using HomeBankingMindHub.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace HomeBankingMinHub.Repositories.Implementations
+namespace HomeBankingMindHub.Repositories.Implementations
 {
     public class ClientRepository : RepositoryBase<Client>, IClientRepository
     {
         public ClientRepository(HomeBankingContext repositoryContext) : base(repositoryContext)
         {
         }
-
         public Client FindById(long id)
         {
             return FindByCondition(client => client.Id == id)
@@ -19,7 +18,6 @@ namespace HomeBankingMinHub.Repositories.Implementations
                 .Include(client => client.Cards)
                 .FirstOrDefault();
         }
-
         public IEnumerable<Client> GetAllClients()
         {
             return FindAll()
@@ -29,7 +27,6 @@ namespace HomeBankingMinHub.Repositories.Implementations
                 .Include(client => client.Cards)
                 .ToList();
         }
-
         public Client FindByEmail(string email)
         {
             return FindByCondition(client => client.Email.ToUpper() == email.ToUpper())
@@ -39,20 +36,15 @@ namespace HomeBankingMinHub.Repositories.Implementations
                .Include(client => client.Cards)
                .FirstOrDefault();
         }
-
-
-
         public void Save(Client client)
         {
             Create(client);
             SaveChanges();
         }
-
         public void Update(Client client)
         {
             RepositoryContext.Update(client);
             SaveChanges();
         }
-
     }
 }

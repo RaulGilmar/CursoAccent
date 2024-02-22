@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using HomeBankingMindHub.Models.Model;
+using HomeBankingMindHub.Models.DTOs;
 using HomeBankingMindHub.Models;
-using HomeBankingMinHub.Repositories.Interfaces;
-
+using HomeBankingMindHub.Repositories.Interfaces;
 
 namespace HomeBankingMindHub.Controllers
 {
@@ -21,7 +20,6 @@ namespace HomeBankingMindHub.Controllers
             _accountRepository = accountRepository;
             _transactionRepository = transactionRepository;
         }
-
         [HttpPost]
         public IActionResult Post([FromBody] TransferRequestDTO transferRequestDTO)
         {
@@ -39,25 +37,21 @@ namespace HomeBankingMindHub.Controllers
                 {
                     return Forbid();
                 }
-
                 //Validar que los parámetros ingresados no estén vacios.
                 if (transferRequestDTO.FromAccountNumber == string.Empty || transferRequestDTO.ToAccountNumber == string.Empty)
                 {
                     return StatusCode(403,"Números de cuenta de origen o destino no proporcionado");
                 }
-
                 //Validar que se proporcione un monto de transferencia + y mayor a 1
                 if (transferRequestDTO.Amount < 1)
                 {
                     return StatusCode(403,"El monto mínimo para transferir es $1");
                 }
-
                 //Validar monto máximo que se puede transferir 
                 if (transferRequestDTO.Amount > 10000000)
                 {
                     return StatusCode(403,"Para transferencias superiores a 10.000.000 comunicarse con el Banco");
                 }
-
                 //Validar que el haya un máximo de 2 decimales
                 string amountDec = transferRequestDTO.Amount.ToString();
                 int decPointIndex = amountDec.IndexOf('.');
@@ -66,7 +60,6 @@ namespace HomeBankingMindHub.Controllers
                 {
                     return StatusCode(403,"El monto no puede tener más de dos decimales.");
                 }
-
                 //Validar que no se realice una transferencia a la cuenta propia.
                 if (transferRequestDTO.FromAccountNumber == transferRequestDTO.ToAccountNumber)
                 {
@@ -78,27 +71,23 @@ namespace HomeBankingMindHub.Controllers
                 {
                     return StatusCode(403, "La descripción no puede estar vacía.");
                 }
-
                 // Validar que exista la cuenta de origen
                 Account fromAccount = _accountRepository.FindByNumber(transferRequestDTO.FromAccountNumber);
                 if (fromAccount == null)
                 {
                     return StatusCode(403, "Cuenta de origen inexistente");
                 }
-
                 //Validar que tenga fondos
                 if (fromAccount.Balance < transferRequestDTO.Amount)
                 {
                     return StatusCode(403, "Fondos insuficientes");
                 }
-
                 //Validar que exista la cuenta de destino
                 Account toAccount = _accountRepository.FindByNumber(transferRequestDTO.ToAccountNumber);
                 if (toAccount == null)
                 {
                     return StatusCode(403, "Cuenta de destino inexistente");
                 }
-
                 _transactionRepository.Save(new Transaction
                 {
                     Type = TransactionType.DEBIT,
@@ -116,7 +105,6 @@ namespace HomeBankingMindHub.Controllers
                     AccountId = toAccount.Id,
                     Date = DateTime.Now,
                 });
-
                 fromAccount.Balance = fromAccount.Balance - transferRequestDTO.Amount;
 
                 _accountRepository.Save(fromAccount);
@@ -126,13 +114,10 @@ namespace HomeBankingMindHub.Controllers
                 _accountRepository.Save(toAccount);
 
                 return Created("Transferencia realizada", fromAccount);
-
             }
-
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
-
             }
         }
     }

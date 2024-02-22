@@ -1,6 +1,5 @@
 ﻿namespace HomeBankingMindHub.Models
-{
-    public class Card
+{    public class Card
     {
         public long Id { get; set; }
         public string CardHolder { get; set; }
@@ -12,7 +11,5 @@
         public DateTime ThruDate { get; set; }
         public Client Client { get; set; }
         public long ClientId { get; set; }
-
-
     }
 }

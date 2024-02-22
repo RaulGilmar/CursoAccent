@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Text;
 using System.Security.Cryptography;
-using HomeBankingMinHub.Repositories.Interfaces;
-
+using HomeBankingMindHub.Repositories.Interfaces;
 
 namespace HomeBankingMindHub.Controllers
 {
@@ -19,7 +18,6 @@ namespace HomeBankingMindHub.Controllers
         {
             _clientRepository = clientRepository;
         }
-
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] Client LoginRequestDTO) 
         {
@@ -29,13 +27,12 @@ namespace HomeBankingMindHub.Controllers
                 if (user != null) 
                 {
                     if (!VerifyPassword(LoginRequestDTO.Password, user.Password))
-                        return BadRequest ("Credenciales incorrectas");
+                        return StatusCode(400, "Credenciales incorrectas");
                 }
                 else 
                 {
-                    return NotFound("Usuario no encontrado");
+                    return StatusCode(404, "Usuario no encontrado");
                 }
-
                 var claims = new List<Claim>
                 {
                     new Claim ("Client", user.Email)
@@ -43,17 +40,15 @@ namespace HomeBankingMindHub.Controllers
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity));
+                                              new ClaimsPrincipal(claimsIdentity));
 
-                return Ok("Inicio de sesión exitoso");
+                return StatusCode(200,"Inicio de sesión exitoso");
             }
-
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
-
         private bool VerifyPassword(string enteredPassword, string savedPasswordHash)
         {
             using (var sha256 = SHA256.Create())
@@ -63,7 +58,6 @@ namespace HomeBankingMindHub.Controllers
                 return savedPasswordHash == enteredPasswordHash;
             }
         }
-
         [HttpPost("Logout")]
         public async Task <IActionResult> Logout()
         {
@@ -76,7 +70,6 @@ namespace HomeBankingMindHub.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
-
         }
     }
 }

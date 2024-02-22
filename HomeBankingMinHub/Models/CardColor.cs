@@ -7,6 +7,5 @@
         SILVER,
 
         TITANIUM
-
     }
 }

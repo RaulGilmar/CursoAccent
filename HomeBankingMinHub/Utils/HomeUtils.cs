@@ -1,13 +1,11 @@
 ﻿using System.Text;
 using System.Security.Cryptography;
 
-
 namespace HomeBankingMindHub.Utils
 {
     public static class HomeUtils
     {
         private static Random random = new Random();
-
         public static string GenerateAccountNumber()
         {
             return $"VIN-{random.Next(00000001, 99999999)}";
@@ -16,12 +14,9 @@ namespace HomeBankingMindHub.Utils
         {
             return random.Next(001, 999);
         }
-
         public static string GenerateRandomCardNumber()
         {
-            var groups = Enumerable.Range(0, 4).Select(_ => random.Next(0001, 9999).ToString());
-
-           
+            var groups = Enumerable.Range(0, 4).Select(_ => random.Next(0001, 9999).ToString());           
             return string.Join("-", groups);
         }
         public static string GeneratePasswordHash(string password)
@@ -32,9 +27,6 @@ namespace HomeBankingMindHub.Utils
                 return Convert.ToBase64String(hashedPasswordBytes);
             }
         }
-
-
-
     }
 }
 

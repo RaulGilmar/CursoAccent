@@ -1,6 +1,6 @@
 ﻿using HomeBankingMindHub.Models;
-using HomeBankingMinHub.Models.DTOs;
-using HomeBankingMinHub.Repositories.Interfaces;
+using HomeBankingMindHub.Models.DTOs;
+using HomeBankingMindHub.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeBankingMindHub.Controllers
@@ -57,48 +57,27 @@ namespace HomeBankingMindHub.Controllers
                 {
                     return Forbid();
                 }
-
                 var accountDTO = new AccountDTO
-
                 {
                     Id = account.Id,
-
                     Number = account.Number,
-
                     CreationDate = account.CreationDate,
-
                     Balance = account.Balance,
-
                     Transactions = account.Transactions.Select(ta => new TransactionDTO
-
                     {
-
                         Id = ta.Id,
-
                         Type = ta.Type.ToString(),
-
                         Amount = ta.Amount,
-
                         Description = ta.Description,
-
-                        Date = ta.Date
-
-                       
-
+                        Date = ta.Date                     
                     }).ToList()
                 };
-
                 return Ok(accountDTO);
-
-
             }
-
-            catch (Exception ex) 
-            
+            catch (Exception ex)             
             {
                   return StatusCode(500, ex.Message);
             }
         }
-
     }
 }

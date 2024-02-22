@@ -1,6 +1,6 @@
 ﻿using HomeBankingMindHub.Models;
 
-namespace HomeBankingMinHub.Repositories.Interfaces
+namespace HomeBankingMindHub.Repositories.Interfaces
 {
     public interface IAccountRepository
     {
@@ -8,7 +8,6 @@ namespace HomeBankingMinHub.Repositories.Interfaces
         void Save(Account account);
         Account FindById(long id);
         Account FindByNumber(string number);
-        IEnumerable<Account> GetAccountsByClient(long clientId);
-        
+        IEnumerable<Account> GetAccountsByClient(long clientId);        
     }
 }

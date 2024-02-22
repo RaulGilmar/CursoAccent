@@ -1,4 +1,4 @@
-﻿namespace HomeBankingMinHub.Models.DTOs
+﻿namespace HomeBankingMindHub.Models.DTOs
 {
     public class CardDTO
     {
@@ -10,9 +10,6 @@
         public int Cvv { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ThruDate { get; set; }
-
-
     }
-
 }
 

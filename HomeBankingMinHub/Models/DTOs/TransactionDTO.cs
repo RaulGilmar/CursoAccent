@@ -1,6 +1,4 @@
-﻿using HomeBankingMindHub.Models;
-
-namespace HomeBankingMinHub.Models.DTOs
+﻿namespace HomeBankingMindHub.Models.DTOs
 {
     public class TransactionDTO
     {
@@ -10,6 +8,5 @@ namespace HomeBankingMinHub.Models.DTOs
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public Account Account { get; set; }
-
     }
 }

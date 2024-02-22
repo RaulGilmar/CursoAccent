@@ -1,7 +1,7 @@
 ﻿using HomeBankingMindHub.Models;
-using HomeBankingMinHub.Repositories.Interfaces;
+using HomeBankingMindHub.Repositories.Interfaces;
 
-namespace HomeBankingMinHub.Repositories.Implementations
+namespace HomeBankingMindHub.Repositories.Implementations
 {
     public class CardRepository : RepositoryBase<Card>, ICardRepository
     {
@@ -13,13 +13,11 @@ namespace HomeBankingMinHub.Repositories.Implementations
             return FindByCondition(card => card.ClientId == clientId && card.Type == type && card.Color == color)
                 .FirstOrDefault();
         }
-
         public Card FindById(long id)
         {
             return FindByCondition(card => card.Id == id)
                   .FirstOrDefault();
         }
-
         public Card FindByNumber(string number)
         {
             return FindByCondition(card => card.Number == number)
@@ -29,9 +27,7 @@ namespace HomeBankingMinHub.Repositories.Implementations
         {
             return FindAll()
                   .ToList();
-
         }
-
         public void Save(Card card)
         {
             Create(card);
@@ -41,7 +37,6 @@ namespace HomeBankingMinHub.Repositories.Implementations
         {
             return FindByCondition(card => card.ClientId == clientId && card.Type == type).Count();
         }
-
         public int CountByColor(long clientId, CardColor color)
         {
             return FindByCondition(card => card.ClientId == clientId && card.Color == color).Count();

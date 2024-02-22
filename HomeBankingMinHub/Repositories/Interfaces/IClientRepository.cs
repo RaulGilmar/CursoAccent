@@ -1,6 +1,6 @@
 ﻿using HomeBankingMindHub.Models;
 
-namespace HomeBankingMinHub.Repositories.Interfaces
+namespace HomeBankingMindHub.Repositories.Interfaces
 {
     public interface IClientRepository
     {
@@ -9,7 +9,5 @@ namespace HomeBankingMinHub.Repositories.Interfaces
         Client FindById(long id);
         Client FindByEmail(string email);
         void Update(Client client);
-
-
     }
 }

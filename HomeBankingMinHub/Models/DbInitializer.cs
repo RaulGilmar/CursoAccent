@@ -15,13 +15,10 @@ namespace HomeBankingMindHub.Models
                     new Client { Email = "Tati88@gmail.com", FirstName="Tatiana", LastName="Castillo", Password=HomeUtils.GeneratePasswordHash("ghi")},
                     new Client { Email = "Joseb@gmail.com", FirstName="Jose", LastName="Bora", Password=HomeUtils.GeneratePasswordHash("jkl")}
                 };
-
                 context.Clients.AddRange(clients);
 
-                //guardamos
                 context.SaveChanges();
             }
-
             if (!context.Accounts.Any())
             {
                 var accountsAlejandro = context.Clients.FirstOrDefault(c => c.Email == "m.ale@gmail.com");
@@ -38,11 +35,9 @@ namespace HomeBankingMindHub.Models
                             Balance = 0
                         }
                     };
-
                     context.Accounts.AddRange(accountsA);
                 }
                 var accountsMaria = context.Clients.FirstOrDefault(c => c.Email == "mariap@gmail.com");
-
                 if (accountsMaria != null)
                 {
                     var accountsM = new Account[]
@@ -55,7 +50,6 @@ namespace HomeBankingMindHub.Models
                             Balance = 0
                         }
                     };
-
                     context.Accounts.AddRange(accountsM);
                 }
                 var accountsTatiana = context.Clients.FirstOrDefault(c => c.Email == "Tati88@gmail.com");
@@ -72,7 +66,6 @@ namespace HomeBankingMindHub.Models
                             Balance = 0
                         }
                     };
-
                     context.Accounts.AddRange(accountsT);
                 }
                 var accountsJose = context.Clients.FirstOrDefault(c => c.Email == "Joseb@gmail.com");
@@ -89,17 +82,10 @@ namespace HomeBankingMindHub.Models
                             Balance = 0
                         }
                     };
-
                     context.Accounts.AddRange(accountsJ);
                 }
-
-
-
-
                 context.SaveChanges();
-
             }
-
              if (!context.Transactions.Any()) 
               {
                   var account1 = context.Accounts.FirstOrDefault(c => c.Number == "ALE-001");
@@ -110,81 +96,63 @@ namespace HomeBankingMindHub.Models
                       {
                          new Transaction
                          {
-
                               AccountId = account1.Id,
                               Amount = 30000,
                               Date = DateTime.Now.AddHours(-4),
                               Description = "Transferencia Recibida",
                               Type = TransactionType.CREDIT
                          },
-
                          new Transaction
                          {
-
                               AccountId = account1.Id,
                               Amount = -5000,
                               Date = DateTime.Now.AddHours(-3),
                               Description = "Transferencia Enviada",
                               Type = TransactionType.DEBIT
                          },
-
-                           new Transaction
+                         new Transaction
                          {
-
                               AccountId = account1.Id,
                               Amount = -10000,
                               Date = DateTime.Now.AddHours(-2),
                               Description = "Compra en tienda Mercado Libre",
                               Type = TransactionType.DEBIT
                          },
-
-
-
                       };
-
                     foreach (Transaction transaction in transactions) 
-                     {
+                    {
                         context.Transactions.Add(transaction);
-                     }
-
+                    }
                     context.SaveChanges();
-
                 }
-            } 
-
+             } 
              if (!context.Loans.Any()) 
              {
                 var loans = new Loan[]
                 {
                       new Loan
-                        {
-                            Name = "Hipotecario",
-                            MaxAmount = 10000000,
-                            Payments = "12,24,36,48,60"
-
-                        },
-                       new Loan
-                        {
-                            Name = "Personal",
-                            MaxAmount = 600000,
-                            Payments = "6,12,24,36"
-
-                        },
-                        new Loan
-                        {
-                            Name = "Automotriz",
-                            MaxAmount = 2000000,
-                            Payments = "12,24,36,48"
-
-                        }
-                                                                           
-                };
-                    
+                      {
+                          Name = "Hipotecario",
+                          MaxAmount = 10000000,
+                          Payments = "12,24,36,48,60"
+                      },
+                      new Loan
+                      {
+                          Name = "Personal",
+                          MaxAmount = 600000,
+                          Payments = "6,12,24,36"
+                      },
+                      new Loan
+                      {
+                          Name = "Automotriz",
+                          MaxAmount = 2000000,
+                          Payments = "12,24,36,48"
+                      }                                                                           
+                };                    
                 foreach (var loan in loans) 
                 {
-                    context.Loans.Add(loan);        
+                    context.Loans.Add(loan);
                 }
-
                 context.SaveChanges();
 
                 var client1 = context.Clients.FirstOrDefault(c => c.Email == "m.ale@gmail.com");
@@ -202,7 +170,6 @@ namespace HomeBankingMindHub.Models
                             ClientId = client1.Id,
                             LoanId = loan1.Id
                         };
-
                         context.ClientLoans.Add(clientLoan1);
                     }
 
@@ -217,7 +184,6 @@ namespace HomeBankingMindHub.Models
                             ClientId = client1.Id,
                             LoanId = loan2.Id
                         };
-
                         context.ClientLoans.Add(clientLoan2);
                     }
 
@@ -232,13 +198,9 @@ namespace HomeBankingMindHub.Models
                             ClientId = client1.Id,
                             LoanId = loan3.Id
                         };
-
                         context.ClientLoans.Add(clientLoan3);
-
                     }
-
                     context.SaveChanges();
-
                 }
                 var client2 = context.Clients.FirstOrDefault(c => c.Email == "Tati88@gmail.com");
 
@@ -255,15 +217,11 @@ namespace HomeBankingMindHub.Models
                             ClientId = client2.Id,
                             LoanId = loan4.Id
                         };
-
                         context.ClientLoans.Add(clientLoan2);
                     }
-
                     context.SaveChanges();
-
                 }
-            }
-             
+             }             
              if (!context.Cards.Any()) 
              {
                 var client1 = context.Clients.FirstOrDefault(c => c.Email == "m.ale@gmail.com");
@@ -283,7 +241,6 @@ namespace HomeBankingMindHub.Models
                             ThruDate= DateTime.Now.AddYears(6),
                             ClientId= client1.Id
                         },
-
                         new Card
                         { 
                             CardHolder = client1.FirstName + " " + client1.LastName,
@@ -302,10 +259,7 @@ namespace HomeBankingMindHub.Models
                     }
                     context.SaveChanges();
                 }
-             }
-
-        
-        }
-       
+             }        
+        }       
     }
 }

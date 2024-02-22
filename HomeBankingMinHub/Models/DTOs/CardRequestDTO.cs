@@ -1,4 +1,4 @@
-﻿namespace HomeBankingMindHub.Models.Model
+﻿namespace HomeBankingMindHub.Models.DTOs
 {
     public class CardRequestDTO
     {

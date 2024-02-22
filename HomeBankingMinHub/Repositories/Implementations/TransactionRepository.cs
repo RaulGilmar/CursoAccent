@@ -1,14 +1,13 @@
 ﻿using HomeBankingMindHub.Models;
-using HomeBankingMinHub.Repositories.Interfaces;
+using HomeBankingMindHub.Repositories.Interfaces;
 
-namespace HomeBankingMinHub.Repositories.Implementations
+namespace HomeBankingMindHub.Repositories.Implementations
 {
     public class TransactionRepository : RepositoryBase<Transaction>, ITransactionRepository
     {
         public TransactionRepository(HomeBankingContext repositoryContext) : base(repositoryContext)
         {
         }
-
         public Transaction FindByNumber(long id)
         {
             return FindByCondition(transaction => transaction.Id == id).FirstOrDefault();
